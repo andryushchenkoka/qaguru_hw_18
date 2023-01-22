@@ -13,8 +13,10 @@ repositories {
 ext {
     junitVersion = "5.9.1"
     restAssuredVersion = "4.5.1"
+    selenideVersion = "6.9.0"
     allureVersion = "2.19.0"
     aspectjWeaverVersion = "1.9.8"
+    jacksonVersion = "2.14.1"
     slf4jVersion = "2.0.5"
 }
 
@@ -35,8 +37,11 @@ allure {
 dependencies {
     testImplementation(
             "org.junit.jupiter:junit-jupiter:${junitVersion}",
+            "com.codeborne:selenide:${selenideVersion}",
             "io.rest-assured:rest-assured:${restAssuredVersion}",
             "org.aspectj:aspectjweaver:${aspectjWeaverVersion}",
+            "io.qameta.allure:allure-selenide:$allureVersion",
+            "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}",
             "org.slf4j:slf4j-simple:${slf4jVersion}"
     )
 }
@@ -46,8 +51,32 @@ tasks.withType(Test) {
     useJUnitPlatform()
 }
 
-task api_tests(type: Test) {
+task get_requests(type: Test) {
     useJUnitPlatform {
-        includeTags("API")
+        includeTags("GET")
+    }
+}
+
+task post_requests(type: Test) {
+    useJUnitPlatform {
+        includeTags("POST")
+    }
+}
+
+task put_requests(type: Test) {
+    useJUnitPlatform {
+        includeTags("PUT")
+    }
+}
+
+task delete_requests(type: Test) {
+    useJUnitPlatform {
+        includeTags("DELETE")
+    }
+}
+
+task all_requests(type: Test) {
+    useJUnitPlatform {
+        includeTags("GET", "POST", "PUT", "DELETE")
     }
 }
